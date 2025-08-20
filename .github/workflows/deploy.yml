@@ -26,5 +26,5 @@ jobs:
           docker run -d \
             --name techkanna-blog \
             --restart unless-stopped \
-            -p 3002:3000 \
+            -p 3005:3000 \
             techkanna-blog
