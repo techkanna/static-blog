@@ -1,0 +1,30 @@
+name: Deploy to Proxmox
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t techkanna-blog .
+
+      - name: Stop existing container (if any)
+        run: |
+          docker stop techkanna-blog || true
+          docker rm techkanna-blog || true
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --name techkanna-blog \
+            --restart unless-stopped \
+            -p 3002:3000 \
+            techkanna-blog
