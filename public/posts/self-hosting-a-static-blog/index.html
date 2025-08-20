@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Self-Hosting a Static Blog with Hugo &#43; Git &#43; CI/CD on Proxmox | Techkanna Blogs</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Introduction
+I always wanted to document and showcase my findings without depending on third-party blogging platforms.
+The solution? Self-hosting a static blog.
+In this post, I’ll share how I set up my personal blog using:
+
+Hugo → Static site generator
+Git → Version control for my posts
+CI/CD → Auto-deploy on changes
+Proxmox → My homelab server as the host
+Cloudflare Tunnel → To expose my blog to the internet securely
+
+This setup is simple, fast, and gives me full control over my content.">
+    <meta name="generator" content="Hugo 0.148.2">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/self-hosting-a-static-blog/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/self-hosting-a-static-blog/">
+  <meta property="og:site_name" content="Techkanna Blogs">
+  <meta property="og:title" content="Self-Hosting a Static Blog with Hugo &#43; Git &#43; CI/CD on Proxmox">
+  <meta property="og:description" content="Introduction I always wanted to document and showcase my findings without depending on third-party blogging platforms.
+The solution? Self-hosting a static blog.
+In this post, I’ll share how I set up my personal blog using:
+Hugo → Static site generator Git → Version control for my posts CI/CD → Auto-deploy on changes Proxmox → My homelab server as the host Cloudflare Tunnel → To expose my blog to the internet securely This setup is simple, fast, and gives me full control over my content.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-08-20T00:00:00+00:00">
+    <meta property="article:tag" content="Self-Hosting">
+    <meta property="article:tag" content="Hugo">
+    <meta property="article:tag" content="Proxmox">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Blog">
+
+  <meta itemprop="name" content="Self-Hosting a Static Blog with Hugo &#43; Git &#43; CI/CD on Proxmox">
+  <meta itemprop="description" content="Introduction I always wanted to document and showcase my findings without depending on third-party blogging platforms.
+The solution? Self-hosting a static blog.
+In this post, I’ll share how I set up my personal blog using:
+Hugo → Static site generator Git → Version control for my posts CI/CD → Auto-deploy on changes Proxmox → My homelab server as the host Cloudflare Tunnel → To expose my blog to the internet securely This setup is simple, fast, and gives me full control over my content.">
+  <meta itemprop="datePublished" content="2025-08-20T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-08-20T00:00:00+00:00">
+  <meta itemprop="wordCount" content="569">
+  <meta itemprop="keywords" content="Self-Hosting,Hugo,Proxmox,Docker,Blog">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Self-Hosting a Static Blog with Hugo &#43; Git &#43; CI/CD on Proxmox">
+  <meta name="twitter:description" content="Introduction I always wanted to document and showcase my findings without depending on third-party blogging platforms.
+The solution? Self-hosting a static blog.
+In this post, I’ll share how I set up my personal blog using:
+Hugo → Static site generator Git → Version control for my posts CI/CD → Auto-deploy on changes Proxmox → My homelab server as the host Cloudflare Tunnel → To expose my blog to the internet securely This setup is simple, fast, and gives me full control over my content.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        Techkanna Blogs
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Self-Hosting a Static Blog with Hugo &#43; Git &#43; CI/CD on Proxmox</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2025-08-20T00:00:00Z">August 20, 2025</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="introduction">Introduction</h2>
+<p>I always wanted to document and showcase my findings without depending on third-party blogging platforms.<br>
+The solution? <strong>Self-hosting a static blog</strong>.</p>
+<p>In this post, I’ll share how I set up my personal blog using:</p>
+<ul>
+<li><strong>Hugo</strong> → Static site generator</li>
+<li><strong>Git</strong> → Version control for my posts</li>
+<li><strong>CI/CD</strong> → Auto-deploy on changes</li>
+<li><strong>Proxmox</strong> → My homelab server as the host</li>
+<li><strong>Cloudflare Tunnel</strong> → To expose my blog to the internet securely</li>
+</ul>
+<p>This setup is simple, fast, and gives me full control over my content.</p>
+<hr>
+<h2 id="why-hugo">Why Hugo?</h2>
+<ul>
+<li><strong>Speed</strong>: Hugo generates static HTML in milliseconds.</li>
+<li><strong>Markdown</strong>: Posts are just Markdown files.</li>
+<li><strong>Themes</strong>: Huge library of ready-to-use themes.</li>
+<li><strong>Low Maintenance</strong>: No heavy database or backend.</li>
+</ul>
+<p>Perfect for self-hosting with minimal resources.</p>
+<hr>
+<h2 id="step-1-install-hugo-locally">Step 1: Install Hugo Locally</h2>
+<p>On your development machine:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install hugo
+</span></span></code></pre></div><p>Create a new site:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo new site myblog
+</span></span><span style="display:flex;"><span>cd myblog
+</span></span></code></pre></div><p>Initialize Git and add a theme:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git init
+</span></span><span style="display:flex;"><span>git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke themes/ananke
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;theme = &#34;ananke&#34;&#39;</span> &gt;&gt; hugo.toml
+</span></span></code></pre></div><p>Create your first post:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo new posts/hello-world.md
+</span></span></code></pre></div><p>Run locally:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo server -D
+</span></span></code></pre></div><p>Visit <a href="http://localhost:1313">http://localhost:1313</a> to see your site 🎉</p>
+<hr>
+<h2 id="step-2-dockerize-the-blog">Step 2: Dockerize the Blog</h2>
+<p>We’ll use a <strong>multi-stage Dockerfile</strong> with Nginx:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># Stage 1: Build site</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> klakegg/hugo:0.134.3-ext-ubuntu AS builder</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /src</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> hugo --minify<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Stage 2: Serve with Nginx</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> nginx:alpine</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>builder /src/public /usr/share/nginx/html<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Build &amp; run locally:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker build -t myblog .
+</span></span><span style="display:flex;"><span>docker run -d -p 8080:80 myblog
+</span></span></code></pre></div><p>Now your Hugo blog is served by <strong>Nginx</strong> at <code>http://localhost:8080</code>.</p>
+<hr>
+<h2 id="step-3-deploy-on-proxmox">Step 3: Deploy on Proxmox</h2>
+<ol>
+<li>
+<p>Create a VM or LXC container with <strong>Docker installed</strong>.</p>
+</li>
+<li>
+<p>Clone your blog repo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/&lt;your-username&gt;/myblog.git
+</span></span><span style="display:flex;"><span>cd myblog
+</span></span></code></pre></div></li>
+<li>
+<p>Build &amp; run the container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker build -t myblog .
+</span></span><span style="display:flex;"><span>docker run -d --name myblog -p 8080:80 myblog
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h2 id="step-4-expose-with-cloudflare-tunnel">Step 4: Expose with Cloudflare Tunnel</h2>
+<p>Instead of opening ports, I use <strong>Cloudflare Tunnel</strong>.</p>
+<p>Install <code>cloudflared</code> and authenticate:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cloudflared tunnel login
+</span></span></code></pre></div><p>Create a tunnel:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cloudflared tunnel create myblog
+</span></span></code></pre></div><p>Map it to your container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cloudflared tunnel route dns myblog blog.mydomain.com
+</span></span></code></pre></div><p>Config file (<code>~/.cloudflared/config.yml</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">tunnel</span>: <span style="color:#ae81ff">myblog</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">credentials-file</span>: <span style="color:#ae81ff">/root/.cloudflared/&lt;tunnel-id&gt;.json</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">ingress</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">hostname</span>: <span style="color:#ae81ff">blog.mydomain.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">service</span>: <span style="color:#ae81ff">http://localhost:8080</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">http_status:404</span>
+</span></span></code></pre></div><p>Run the tunnel as a service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cloudflared tunnel run myblog
+</span></span></code></pre></div><p>Now your blog is live at <code>https://blog.mydomain.com</code> 🎉</p>
+<hr>
+<h2 id="step-5-automate-with-github-actions-cicd">Step 5: Automate with GitHub Actions (CI/CD)</h2>
+<p>Whenever I push a new post, I want my server to rebuild &amp; redeploy automatically.</p>
+<p>Here’s a simple GitHub Actions workflow:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Deploy Hugo Blog</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">build-and-deploy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">self-hosted</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Build Docker Image</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">docker build -t myblog .</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Stop Old Container</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">docker rm -f myblog || true</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Run New Container</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">docker run -d --name myblog -p 8080:80 myblog</span>
+</span></span></code></pre></div><p>This uses a <strong>self-hosted runner</strong> on my Proxmox server.
+Whenever I push to <code>main</code>, the site rebuilds and restarts automatically.</p>
+<hr>
+<h2 id="future-plans">Future Plans</h2>
+<p>I plan to extend this setup with <strong>n8n</strong>:</p>
+<ul>
+<li>Automating post publishing (e.g., write in Notion → auto-sync to Hugo).</li>
+<li>Auto-summaries and social media sharing.</li>
+<li>Notifications when a new post goes live.</li>
+</ul>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>Self-hosting with Hugo + Git + CI/CD on Proxmox is a <strong>lightweight, secure, and fun way</strong> to start blogging.
+Using <strong>Cloudflare Tunnel</strong> makes it easy to expose the site without opening firewall ports.</p>
+<p>If you want to take control of your blogging journey — give this setup a try.</p>
+<p>👉 Next step for me: Automating blog updates with <strong>n8n</strong>.</p>
+<hr>
+<p><em>Thanks for reading! If you’re self-hosting your blog too, I’d love to hear your setup.</em></p>
+<ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/self-hosting/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Self-Hosting</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/hugo/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Hugo</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/proxmox/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Proxmox</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/docker/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Docker</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/blog/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Blog</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  Techkanna Blogs 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

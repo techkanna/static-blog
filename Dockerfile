@@ -1,0 +1,10 @@
+# Stage 1: Install Hugo in Alpine
+FROM alpine:latest AS builder
+RUN apk add --no-cache hugo
+WORKDIR /src
+COPY . .
+RUN hugo --minify
+
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+COPY --from=builder /src/public /usr/share/nginx/html

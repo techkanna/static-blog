@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Techkanna Blogs</title>
+    <link>http://localhost:1313/tags/hugo/</link>
+    <description>Recent content in Hugo on Techkanna Blogs</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Self-Hosting a Static Blog with Hugo &#43; Git &#43; CI/CD on Proxmox</title>
+      <link>http://localhost:1313/posts/self-hosting-a-static-blog/</link>
+      <pubDate>Wed, 20 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/self-hosting-a-static-blog/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;I always wanted to document and showcase my findings without depending on third-party blogging platforms.&lt;br&gt;&#xA;The solution? &lt;strong&gt;Self-hosting a static blog&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;In this post, I’ll share how I set up my personal blog using:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Hugo&lt;/strong&gt; → Static site generator&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Git&lt;/strong&gt; → Version control for my posts&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;CI/CD&lt;/strong&gt; → Auto-deploy on changes&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Proxmox&lt;/strong&gt; → My homelab server as the host&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Docker + Caddy&lt;/strong&gt; → To serve the blog easily&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;This setup is simple, fast, and gives me full control over my content.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
